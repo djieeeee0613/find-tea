@@ -38,7 +38,7 @@ const G = {
     for (let i = 1; i <= chars.length; i++) {
       if (id !== this.run) return; if (this.skip) break;
       this.text.textContent = chars.slice(0, i).join(''); const c = chars[i - 1];
-      if (i % 2) Sound.blip('sam', c);
+      if (i % 2) Sound.blip('chali', c);
       if (mood === 'idle' && i % 5 === 0) this.img.src = this.img.src.includes('idle_1') ? SAMIMG.talk : SAMIMG.idle;
       await wait('，。！？…、'.includes(c) ? 100 : 26);
     }

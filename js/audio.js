@@ -121,7 +121,7 @@ const Sound = {
 
   /* ---------- 說話的嘟嘟聲 ---------- */
   VOICE: {
-    sam: { base: 500, type: 'sawtooth', fm: 1.35, vol: .5, dur: .075 },     // 小小的、高高的
+    chali: { base: 300, type: 'sawtooth', fm: 1.15, vol: .45, dur: .09 },  // 茶理先生：比原本的薩姆低、稍微慢一點，比叔叔高
     uncle: { base: 165, type: 'sawtooth', fm: .95, vol: .55, dur: .1 },     // 低低的、慢慢的
     narr: null,
   },
