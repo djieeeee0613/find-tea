@@ -1,7 +1,7 @@
 'use strict';
 /* ============================================================
-   大家來找茶：六關茶葉知識小遊戲
-   1 六大茶類 → 2 台灣名茶產地 → 3 日月潭紅茶四大品種 → 4 熱泡實作 → 5 回沖與冷泡 → 6 茶的小常識
+   大家來找茶：四關茶葉知識小遊戲
+   1 台灣名茶產地 → 2 日月潭紅茶四大品種 → 3 熱泡實作 → 4 回沖與冷泡
    進度與星數存在瀏覽器（localStorage），不需要登入
    ============================================================ */
 const $ = (s, r = document) => r.querySelector(s);
@@ -11,14 +11,14 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const pickN = (arr, n, not) => shuffle(arr.filter(x => x !== not)).slice(0, n);
 const A = 'assets/';
-const SAMIMG = { idle: A + 'sam_idle_1.png', talk: A + 'sam_idle_2.png', happy: A + 'sam_happy_correct.png', cold: A + 'sam_wrong_1.png', wilt: A + 'sam_wrong_2.png' };
+const SAMIMG = { idle: A + 'chali_idle_1.png', talk: A + 'chali_idle_2.png', happy: A + 'chali_happy_correct.png', cold: A + 'chali_wrong_1.png', wilt: A + 'chali_wrong_2.png' };   // 導覽角色：茶理先生
 Object.values(SAMIMG).forEach(s => { new Image().src = s; });
 const stage = $('#tStage');
 let mistakes = 0;
 
 /* ---------------- 進度 ---------------- */
 const Prog = {
-  key: 'zhaocha.progress.v1', data: {},
+  key: 'zhaocha.progress.v2', data: {},
   load() { try { this.data = JSON.parse(localStorage.getItem(this.key) || '{}'); } catch (e) { this.data = {}; } },
   set(i, stars) { const old = this.data[i] || 0; if (stars > old) this.data[i] = stars; try { localStorage.setItem(this.key, JSON.stringify(this.data)); } catch (e) {} },
   get(i) { return this.data[i] || 0; },
@@ -26,7 +26,7 @@ const Prog = {
   total() { return LEVELS.reduce((s, _, i) => s + this.get(i), 0); },
 };
 
-/* ---------------- 薩姆導覽 ---------------- */
+/* ---------------- 茶理先生導覽 ---------------- */
 const G = {
   run: 0, skip: false,
   init() { this.text = $('#gText'); this.img = $('#gImg'); this.btn = $('#gBtn'); this.sam = $('.g-sam'); $('#gBox').addEventListener('click', () => { this.skip = true; }); },
@@ -105,27 +105,15 @@ async function quiz(title, qs) {
 }
 
 /* ============================================================
-   六個關卡
+   四個關卡
    ============================================================ */
 async function level1() {
-  await G.say('茶依照「發酵」的程度，大致可以分成六大類。我說特色，你來猜是哪一類！'); await G.next('開始');
-  const order = shuffle(TEA_TYPES);
-  for (let i = 0; i < order.length; i++) {
-    const tp = order[i], opts = shuffle([tp, ...pickN(TEA_TYPES, 3, tp)]);
-    await cardRound({ title: '六大茶類', color: tp.color, clue: tp.clue + '這是哪一類茶？', options: opts, answer: tp.id, index: i, total: order.length,
-      dex: dexHTML(tp.name, tp.color, [['發酵', tp.ferment], ['特色', tp.clue], ['例如', tp.example]]) });
-    await G.say('答對了！這是{0}，屬於{1}。', 'happy', tp.name, tp.ferment);
-    await G.next(i < order.length - 1 ? '下一杯' : '完成這一關');
-  }
-}
-
-async function level2() {
   await G.say('台灣有很多有名的茶，各有自己的家鄉。你知道它們產在哪裡嗎？'); await G.next('開始');
   const places = TW_TEAS.map(x => x.place);
   await quiz('台灣名茶產地', shuffle(TW_TEAS).map(x => ({ q: `${x.tea}最有名的產地是哪裡？`, right: x.place, wrongs: pickN(places, 2, x.place), why: x.why })));
 }
 
-async function level3() {
+async function level2() {
   await G.say('日月潭的紅茶不只一種喔！看茶湯的顏色和香氣，猜猜是哪一個品種。'); await G.next('開始');
   const order = shuffle(VARIETIES);
   for (let i = 0; i < order.length; i++) {
@@ -137,7 +125,7 @@ async function level3() {
   }
 }
 
-/* ---------- 第 4 關：熱泡實作 ---------- */
+/* ---------- 第 3 關：熱泡實作 ---------- */
 const SCALE = `<svg viewBox="0 0 120 70"><g filter="url(#wob-s)" stroke="#45433f" stroke-width="4" stroke-linejoin="round"><path d="M8 40 h104 l-8 26 h-88Z" fill="#e7e1cf"/><rect x="26" y="46" width="44" height="14" rx="4" fill="#2f5a26"/><ellipse cx="60" cy="36" rx="46" ry="8" fill="#fbf7ea"/></g></svg>`;
 const CAN = `<svg viewBox="0 0 80 100"><g filter="url(#wob-s)" stroke="#45433f" stroke-width="4" stroke-linejoin="round"><rect x="10" y="22" width="60" height="74" rx="8" fill="#b9482b"/><rect x="6" y="10" width="68" height="16" rx="5" fill="#8a2f18"/><circle cx="40" cy="58" r="17" fill="#f7f2e3"/></g><text x="40" y="64" text-anchor="middle" font-size="16" font-weight="700" fill="#b9482b">茶</text></svg>`;
 const KETTLE = c => `<svg viewBox="0 0 70 56"><g filter="url(#wob-s)" stroke="#45433f" stroke-width="3.5" stroke-linejoin="round"><path d="M14 22 q21 -14 42 0 v24 q-21 8 -42 0Z" fill="${c}"/><path d="M14 28 q-12 -2 -10 -14" fill="none"/><path d="M56 28 q10 0 10 10" fill="none"/><path d="M26 14 h18" fill="none"/></g></svg>`;
@@ -224,7 +212,7 @@ async function steep() {
     clock.style.setProperty('--p', 0); num.firstChild.textContent = 0; cup.style.setProperty('--k', .1); await wait(500);
   }
 }
-async function level4() {
+async function level3() {
   await G.say('來親手泡一杯日月潭紅茶吧！秤茶、選水溫、注水、計時，一步一步來。'); await G.next('開始');
   await weigh(); await G.say('秤好了！', 'happy'); await wait(700);
   await pickTemp(); await G.say('對，第一泡用 {0}°C！', 'happy', BREW.hot.first.temp); await wait(700);
@@ -234,8 +222,8 @@ async function level4() {
   await G.next('完成這一關');
 }
 
-async function level5() {
-  await G.say('同一份茶葉可以回沖好幾次，天熱時也能做冷泡茶。考考你！'); await G.next('開始');
+async function level4() {
+  await G.say('最後一關！同一份茶葉可以回沖好幾次，天熱時也能做冷泡茶。考考你！'); await G.next('開始');
   const h = BREW.hot.re;
   await quiz('回沖與冷泡', [
     { q: '第二泡（回沖）要用幾度的熱水？', right: h.temp + '°C', wrongs: ['95°C', '100°C'], why: '從第二泡開始，改用 85°C 的熱水，泡 40 秒。' },
@@ -247,18 +235,11 @@ async function level5() {
   ]);
 }
 
-async function level6() {
-  await G.say('最後一關！採茶、泡茶、保存茶葉，都有一些小學問。'); await G.next('開始');
-  await quiz('茶的小常識', shuffle(TIPS));
-}
-
 const LEVELS = [
-  { name: '六大茶類', desc: '綠、白、黃、青、紅、黑，差在哪裡？', run: level1 },
-  { name: '台灣名茶產地', desc: '包種、凍頂、東方美人…的家鄉', run: level2 },
-  { name: '日月潭紅茶四大品種', desc: '阿薩姆、紅玉、紅韻、原生種山茶', run: level3 },
-  { name: '熱泡實作', desc: '秤茶、選水溫、注水、計時出湯', run: level4 },
-  { name: '回沖與冷泡', desc: '第二泡之後怎麼泡？冷泡怎麼做？', run: level5 },
-  { name: '茶的小常識', desc: '一心二葉、水溫、保存方法', run: level6 },
+  { name: '台灣名茶產地', desc: '包種、凍頂、東方美人…的家鄉', run: level1 },
+  { name: '日月潭紅茶四大品種', desc: '阿薩姆、紅玉、紅韻、原生種山茶', run: level2 },
+  { name: '熱泡實作', desc: '秤茶、選水溫、注水、計時出湯', run: level3 },
+  { name: '回沖與冷泡', desc: '第二泡之後怎麼泡？冷泡怎麼做？', run: level4 },
 ];
 
 /* ============================================================
@@ -279,7 +260,7 @@ async function showMenu(say = true) {
     if (e.target.closest('[data-cert]')) { stage.onclick = null; certificate(); return; }
     if (e.target.closest('[data-about]')) { stage.onclick = null; about(); }
   };
-  if (say) G.say(all ? '六關都完成了！可以領證書，或回去挑戰更多星星。' : Prog.total() ? '選一關繼續吧！打勾的是已經完成的。' : '選一關開始吧！建議從第 1 關依序玩下去。');
+  if (say) G.say(all ? '四關都完成了！可以領證書，或回去挑戰更多星星。' : Prog.total() ? '選一關繼續吧！打勾的是已經完成的。' : '選一關開始吧！建議從第 1 關依序玩下去。');
 }
 
 async function play(i) {
@@ -301,14 +282,14 @@ async function play(i) {
 
 async function certificate() {
   G.hideBtn(); setStep(-1);
-  const total = Prog.total(), title = total >= 16 ? '找茶達人' : total >= 11 ? '找茶好手' : '找茶新手';
+  const total = Prog.total(), title = total >= 11 ? '找茶達人' : total >= 8 ? '找茶好手' : '找茶新手';
   const date = new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' });
   await setScene(`<div class="cert">
     <span class="kicker">找茶證書</span>
-    <img class="cert-sam" src="${A}sam_happy_correct.png" alt="">
+    <img class="cert-sam" src="${A}chali_happy_correct.png" alt="">
     <h2>${title}</h2>
     <p class="cert-stars">★ ${total} / ${LEVELS.length * 3}</p>
-    <p class="cert-txt">完成「大家來找茶」六關茶葉知識挑戰，認識了六大茶類、台灣名茶、日月潭紅茶與沖泡方法。</p>
+    <p class="cert-txt">完成「大家來找茶」四關茶葉知識挑戰，認識了台灣名茶、日月潭紅茶與沖泡方法。</p>
     <p class="cert-org">${ORG.school}　${ORG.team}<br>${ORG.name}　${date}</p>
     <div class="final-btns"><button class="btn" data-menu>回到關卡</button><button class="btn btn-primary" data-share>分享給朋友</button></div>
   </div>`);
@@ -325,7 +306,7 @@ async function certificate() {
 async function about() {
   G.hideBtn(); setStep(-1);
   await setScene(`<div class="about-box"><h2>關於大家來找茶</h2>
-    <p>這是${ORG.school} ${ORG.team}「${ORG.name}」製作的茶葉知識推廣小遊戲，非營利用途。導覽角色「薩姆」是一片茶葉精靈，對話均為創作。</p>
+    <p>這是${ORG.school} ${ORG.team}「${ORG.name}」製作的茶葉知識推廣小遊戲，非營利用途。導覽角色「茶理先生」是一片鹿谷茶園的茶葉，對話均為創作。</p>
     <h3>資料來源</h3><ul>${SOURCES.map(s => `<li>${s}</li>`).join('')}</ul>
     <button class="btn btn-primary" data-back>回到關卡</button></div>`);
   stage.onclick = e => { if (e.target.closest('[data-back]')) { stage.onclick = null; showMenu(); } };
@@ -340,9 +321,9 @@ async function main() {
   $('#steps').innerHTML = LEVELS.map((_, i) => `<li>${i + 1}</li>`).join('');
   $('#btnMenu').addEventListener('click', () => { if (busy) { if (!confirm('要離開這一關，回到關卡選單嗎？')) return; location.reload(); return; } showMenu(); });
   Sound.bgm('day');
-  stage.innerHTML = `<div class="intro-art"><p class="intro-school">${ORG.school}<br>${ORG.team}</p><h1>${ORG.name}</h1><p>茶葉知識小遊戲・六個關卡</p>
-    <div class="intro-row"><img src="${A}item_withered_leaf.png" alt=""><img src="${A}sam_idle_1.png" alt=""><div class="b-cup" style="position:relative;left:auto;translate:none;width:30%;--liq:#c4301c">${CUP()}</div></div></div>`;
-  await G.say('姆！我是茶葉精靈薩姆。歡迎來到大家來找茶！我們一起用六個關卡，認識茶的大小事。');
+  stage.innerHTML = `<div class="intro-art"><p class="intro-school">${ORG.school}<br>${ORG.team}</p><h1>${ORG.name}</h1><p>茶葉知識小遊戲・四個關卡</p>
+    <div class="intro-row"><img src="${A}item_withered_leaf.png" alt=""><img src="${A}chali_idle_1.png" alt=""><div class="b-cup" style="position:relative;left:auto;translate:none;width:30%;--liq:#c4301c">${CUP()}</div></div></div>`;
+  await G.say('嗨！我是茶理先生，鹿谷茶園裡的一片茶葉。歡迎來到大家來找茶！我們一起用四個關卡，認識茶的大小事。');
   await G.next(Prog.total() ? '繼續找茶' : '開始找茶');
   showMenu();
 }
