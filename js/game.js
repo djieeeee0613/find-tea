@@ -236,7 +236,7 @@ async function level4() {
 }
 
 const LEVELS = [
-  { name: '台灣名茶產地', desc: '包種、凍頂、東方美人…的家鄉', run: level1 },
+  { name: '台灣名茶產地', desc: '包種、松柏長青、東方美人…的家鄉', run: level1 },
   { name: '日月潭紅茶四大品種', desc: '阿薩姆、紅玉、紅韻、原生種山茶', run: level2 },
   { name: '熱泡實作', desc: '秤茶、選水溫、注水、計時出湯', run: level3 },
   { name: '回沖與冷泡', desc: '第二泡之後怎麼泡？冷泡怎麼做？', run: level4 },
@@ -306,7 +306,7 @@ async function certificate() {
 async function about() {
   G.hideBtn(); setStep(-1);
   await setScene(`<div class="about-box"><h2>關於大家來找茶</h2>
-    <p>這是${ORG.school} ${ORG.team}「${ORG.name}」製作的茶葉知識推廣小遊戲，非營利用途。導覽角色「茶理先生」是一片鹿谷茶園的茶葉，對話均為創作。</p>
+    <p>這是${ORG.school} ${ORG.team}「${ORG.name}」製作的茶葉知識推廣小遊戲，非營利用途。導覽角色「茶理先生」是一片名間茶園的茶葉，對話均為創作。</p>
     <h3>資料來源</h3><ul>${SOURCES.map(s => `<li>${s}</li>`).join('')}</ul>
     <button class="btn btn-primary" data-back>回到關卡</button></div>`);
   stage.onclick = e => { if (e.target.closest('[data-back]')) { stage.onclick = null; showMenu(); } };
@@ -323,7 +323,7 @@ async function main() {
   Sound.bgm('day');
   stage.innerHTML = `<div class="intro-art"><p class="intro-school">${ORG.school}<br>${ORG.team}</p><h1>${ORG.name}</h1><p>茶葉知識小遊戲・四個關卡</p>
     <div class="intro-row"><img src="${A}item_withered_leaf.png" alt=""><img src="${A}chali_idle_1.png?v=2" alt=""><div class="b-cup" style="position:relative;left:auto;translate:none;width:30%;--liq:#c4301c">${CUP()}</div></div></div>`;
-  await G.say('嗨！我是茶理先生，鹿谷茶園裡的一片茶葉。歡迎來到大家來找茶！我們一起用四個關卡，認識茶的大小事。');
+  await G.say('嗨！我是茶理先生，名間茶園裡的一片茶葉。歡迎來到大家來找茶！我們一起用四個關卡，認識茶的大小事。');
   await G.next(Prog.total() ? '繼續找茶' : '開始找茶');
   showMenu();
 }
