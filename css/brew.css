@@ -1,0 +1,81 @@
+/* ============================================================
+   品茶小學堂（沿用 tea/tea.css 的版面）
+   ============================================================ */
+.b-bg { position: absolute; inset: 0; background: radial-gradient(90% 70% at 50% 30%, #fffdf2, #efe6c6); }
+.b-table { position: absolute; left: 0; right: 0; bottom: 0; height: 22%; background: #c9a57c; border-top: 3px solid var(--ink); }
+
+/* 茶杯（茶湯顏色用 --liq，濃淡用 --k） */
+.b-cup { position: absolute; left: 50%; translate: -50% 0; width: 46%; }
+.b-cup svg { width: 100%; height: auto; display: block; overflow: visible; }
+.b-cup .liq { fill: var(--liq, #c4301c); opacity: var(--k, 1); transition: fill .6s, opacity .3s; }
+.b-cup .steam path { animation: steam 2.6s ease-in-out infinite; } .b-cup .steam path:nth-child(2) { animation-delay: -.9s; } .b-cup .steam path:nth-child(3) { animation-delay: -1.7s; }
+
+/* 品種卡 */
+.v-cards { position: absolute; left: 4%; right: 4%; bottom: 4%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.v-card { min-height: 0; padding: 8px 6px; font-size: clamp(.78rem, 3.5vw, .98rem); font-weight: 700; line-height: 1.3; background: var(--paper); border: 2.5px solid var(--ink); border-radius: var(--r-s); box-shadow: 3px 3px 0 rgba(69, 67, 63, .16); transition: transform .15s var(--spring), background .2s; animation: popIn .4s var(--spring) backwards; }
+.v-card:active { transform: scale(.96); }
+.v-card.no { animation: nope2 .4s linear; background: #f3ddd2; opacity: .6; pointer-events: none; }
+@keyframes nope2 { 20%, 60% { translate: -5px 0; } 40%, 80% { translate: 5px 0; } }
+.v-card.yes { background: #e3f1c8; border-color: var(--leaf-deep); }
+
+/* 圖鑑卡 */
+.dex { position: absolute; inset: 5%; display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; background: #fffdf5; border: 3px solid var(--ink); border-radius: var(--r); box-shadow: 5px 6px 0 rgba(69, 67, 63, .18); overflow-y: auto; animation: dexIn .45s var(--spring) backwards; }
+@keyframes dexIn { from { scale: .6; rotate: -6deg; opacity: 0; } }
+.dex-top { display: flex; align-items: center; gap: 10px; }
+.dex-dot { flex: none; width: 46px; aspect-ratio: 1; border-radius: 50%; border: 3px solid var(--ink); background: var(--liq); box-shadow: inset 0 0 0 4px #fbf7ea; }
+.dex h3 { font-size: 1.1rem; line-height: 1.3; }
+.dex .kicker { align-self: flex-start; font-size: .7rem; }
+.dex dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: .86rem; line-height: 1.55; }
+.dex dt { font-weight: 700; color: var(--leaf-deep); white-space: nowrap; } .dex dd { color: var(--ink); }
+
+/* 秤 / 茶罐 */
+.b-scale { position: absolute; left: 8%; bottom: 14%; width: 46%; }
+.b-scale svg { width: 100%; display: block; overflow: visible; }
+.b-read { position: absolute; left: 31%; bottom: 17.5%; translate: -50% 0; font-weight: 700; font-size: clamp(.9rem, 4.4vw, 1.2rem); color: #e9f7d3; letter-spacing: .06em; font-variant-numeric: tabular-nums; }
+.b-can { position: absolute; right: 8%; bottom: 20%; width: 30%; padding: 0; animation: readyPulse 1.6s ease-in-out infinite; }
+.b-can svg { width: 100%; display: block; overflow: visible; } .b-can:active { scale: .94; }
+.b-heap { position: absolute; left: 31%; bottom: 31%; width: 34%; height: 14%; translate: -50% 0; pointer-events: none; }
+.b-heap .curl { width: 34%; animation: dropIn .35s ease-in backwards; }
+@keyframes dropIn { from { translate: -50% -260%; opacity: 0; } }
+.b-ok { position: absolute; left: 50%; top: 10%; translate: -50% 0; width: auto; min-height: 0; padding: 6px 22px; font-size: .95rem; }
+
+/* 水壺溫度 */
+.k-row { position: absolute; left: 5%; right: 5%; bottom: 8%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.kettle { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px 10px; background: var(--paper); border: 2.5px solid var(--ink); border-radius: var(--r-s); box-shadow: 3px 3px 0 rgba(69, 67, 63, .16); animation: popIn .4s var(--spring) backwards; }
+.kettle svg { width: 70%; overflow: visible; } .kettle b { font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+.kettle.no { opacity: .5; animation: nope2 .4s linear; pointer-events: none; }
+.kettle:active { transform: scale(.96); }
+
+/* 注水 */
+.b-pot { position: absolute; left: 50%; bottom: 26%; translate: -50% 0; width: 44%; aspect-ratio: .9; border: 3px solid var(--ink); border-top: 0; border-radius: 6px 6px 30px 30px; background: rgba(255, 255, 255, .55); overflow: hidden; }
+.b-pot b { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--w) * 1%); background: linear-gradient(#cfe7f2, #a7d1e3); transition: height .06s linear; }
+.b-pot i { position: absolute; left: -2px; right: -2px; height: 0; border-top: 3px dashed var(--tea); }
+.b-pot i::after { content: attr(data-l); position: absolute; right: -4px; top: -1.4em; font-style: normal; font-size: .7rem; font-weight: 700; color: var(--tea); }
+.b-ml { position: absolute; left: 50%; top: 9%; translate: -50% 0; font-size: clamp(1.1rem, 6vw, 1.6rem); font-weight: 700; font-variant-numeric: tabular-nums; }
+.b-stream { position: absolute; left: 50%; top: 18%; width: 3%; height: 0; translate: -50% 0; background: #a7d1e3; border-radius: 4px; transition: height .12s; }
+.pouring .b-stream { height: 36%; }
+.b-hold { position: absolute; left: 50%; bottom: 5%; translate: -50% 0; width: 52%; min-height: 0; height: 13%; padding: 0; font-size: 1.02rem; touch-action: none; }
+.b-hold.down { transform: translate(3px, 4px) scale(.97); box-shadow: 1px 1px 0 rgba(69, 67, 63, .16); background: var(--leaf-mid); }
+
+/* 計時 */
+.b-clock { position: absolute; left: 50%; top: 6%; translate: -50% 0; width: 34%; aspect-ratio: 1; border-radius: 50%; border: 3px solid var(--ink); background: conic-gradient(var(--amber) calc(var(--p) * 1turn), #fffdf5 0); display: grid; place-items: center; box-shadow: 3px 4px 0 rgba(69, 67, 63, .16); }
+.b-clock span { display: grid; place-items: center; width: 74%; aspect-ratio: 1; border-radius: 50%; background: #fffdf5; border: 2.5px solid var(--ink); font-size: clamp(1.1rem, 6vw, 1.7rem); font-weight: 700; font-variant-numeric: tabular-nums; }
+.b-clock em { font-style: normal; font-size: .6em; margin-left: 2px; }
+
+/* 問答 */
+.q-box { position: absolute; left: 5%; right: 5%; top: 8%; bottom: 5%; display: flex; flex-direction: column; gap: 8px; }
+.q-box h3 { font-size: clamp(1rem, 4.6vw, 1.2rem); line-height: 1.5; padding: 10px 14px; background: #fffdf5; border: 2.5px solid var(--ink); border-radius: var(--r-s); }
+.q-opt { min-height: 0; padding: 10px 12px; text-align: left; font-size: .98rem; display: flex; align-items: center; gap: 10px; }
+.q-opt i { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-size: .8rem; background: var(--paper-2); border: 2px solid var(--ink); }
+.q-opt.no { opacity: .5; animation: nope2 .4s linear; pointer-events: none; } .q-opt.yes { background: #e3f1c8; border-color: var(--leaf-deep); }
+
+/* 結算 */
+.b-final { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 6% 6% 5%; text-align: center; overflow-y: auto; background: radial-gradient(90% 70% at 50% 30%, #fffdf2, #efe7c8); }
+.b-final .stars { display: flex; gap: 6px; font-size: clamp(1.6rem, 8vw, 2.3rem); color: var(--paper-3); }
+.b-final .stars b.on { color: var(--amber); -webkit-text-stroke: 2px var(--ink); }
+.b-final h2 { font-size: clamp(1.3rem, 6vw, 1.8rem); letter-spacing: .16em; margin-right: -.16em; }
+.dex-row { display: flex; gap: 8px; justify-content: center; }
+.dex-row i { width: 30px; aspect-ratio: 1; border-radius: 50%; border: 2.5px solid var(--ink); background: var(--liq); box-shadow: inset 0 0 0 3px #fbf7ea; }
+.brew-card { width: 100%; text-align: left; font-size: .8rem; line-height: 1.55; background: #fffdf5; border: 2.5px solid var(--ink); border-radius: var(--r-s); padding: 8px 12px; }
+.brew-card b { color: var(--tea); }
+.b-src { font-size: .68rem; color: var(--ink-soft); line-height: 1.5; }

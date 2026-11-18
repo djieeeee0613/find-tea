@@ -1,0 +1,14 @@
+音檔來源與授權（皆為 CC0 公眾領域，可商用、不需標示，但建議保留來源）
+
+bgm_peaceful_town.mp3
+  〈Peaceful Town〉 by ARoachIFoundOnMyPillow
+  https://opengameart.org/node/131208
+  License: CC0 1.0  https://creativecommons.org/publicdomain/zero/1.0/
+
+click.wav / tick.wav / pop.wav / ok.wav / bad.wav
+  Interface Sounds (1.0) by Kenney  https://kenney.nl/assets/interface-sounds
+  取自 https://github.com/Calinou/kenney-interface-sounds
+  原檔名：click_001 / click_003 / drop_002 / confirmation_001 / error_004
+  License: CC0 1.0  https://creativecommons.org/publicdomain/zero/1.0/
+
+角色說話的嘟嘟聲、換章鐘聲、時光倒流、徽章音效：程式即時合成（js/audio.js），無外部素材。
