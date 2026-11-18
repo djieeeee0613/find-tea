@@ -43,3 +43,6 @@
 .intro-row .b-cup svg { width: 100%; }
 .intro-row .b-cup { flex: none; width: 26% !important; align-self: center; }
 .intro-row img { min-width: 0; }
+
+/* 首頁 banner：學校與組別 */
+.intro-art .intro-school { font-size: clamp(.8rem, 3.6vw, .95rem); font-weight: 700; line-height: 1.6; letter-spacing: .12em; color: var(--leaf-deep); padding: 4px 14px; border: 2px solid var(--leaf-deep); border-radius: 14px; background: #e3f1c8; }

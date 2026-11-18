@@ -269,7 +269,7 @@ async function showMenu(say = true) {
   G.hideBtn(); setStep(-1); G.run++;
   const all = Prog.all();
   await setScene(`<div class="b-bg"></div><div class="menu-lv">
-    <p class="lv-head"><b>${ORG.name}</b><span>茶葉知識小遊戲</span></p>
+    <p class="lv-head"><span>${ORG.school}　${ORG.team}</span><b>${ORG.name}</b><span>茶葉知識小遊戲</span></p>
     ${LEVELS.map((lv, i) => { const s = Prog.get(i); return `<button class="lv${s ? ' done' : ''}" data-i="${i}" style="animation-delay:${i * 50}ms"><i>${i + 1}</i><span><b>${lv.name}</b><small>${lv.desc}</small></span><em>${s ? '★'.repeat(s) + '☆'.repeat(3 - s) : ''}</em></button>`; }).join('')}
     ${all ? '<button class="btn btn-primary lv-cert" data-cert>領取找茶證書</button>' : ''}
     <button class="lv-about" data-about>關於與資料來源</button>
@@ -309,7 +309,7 @@ async function certificate() {
     <h2>${title}</h2>
     <p class="cert-stars">★ ${total} / ${LEVELS.length * 3}</p>
     <p class="cert-txt">完成「大家來找茶」六關茶葉知識挑戰，認識了六大茶類、台灣名茶、日月潭紅茶與沖泡方法。</p>
-    <p class="cert-org">${ORG.name}　${date}</p>
+    <p class="cert-org">${ORG.school}　${ORG.team}<br>${ORG.name}　${date}</p>
     <div class="final-btns"><button class="btn" data-menu>回到關卡</button><button class="btn btn-primary" data-share>分享給朋友</button></div>
   </div>`);
   stage.onclick = async e => {
@@ -325,7 +325,7 @@ async function certificate() {
 async function about() {
   G.hideBtn(); setStep(-1);
   await setScene(`<div class="about-box"><h2>關於大家來找茶</h2>
-    <p>這是「${ORG.name}」（${ORG.team}）製作的茶葉知識推廣小遊戲，非營利用途。導覽角色「薩姆」是一片茶葉精靈，對話均為創作。</p>
+    <p>這是${ORG.school} ${ORG.team}「${ORG.name}」製作的茶葉知識推廣小遊戲，非營利用途。導覽角色「薩姆」是一片茶葉精靈，對話均為創作。</p>
     <h3>資料來源</h3><ul>${SOURCES.map(s => `<li>${s}</li>`).join('')}</ul>
     <button class="btn btn-primary" data-back>回到關卡</button></div>`);
   stage.onclick = e => { if (e.target.closest('[data-back]')) { stage.onclick = null; showMenu(); } };
@@ -340,7 +340,7 @@ async function main() {
   $('#steps').innerHTML = LEVELS.map((_, i) => `<li>${i + 1}</li>`).join('');
   $('#btnMenu').addEventListener('click', () => { if (busy) { if (!confirm('要離開這一關，回到關卡選單嗎？')) return; location.reload(); return; } showMenu(); });
   Sound.bgm('day');
-  stage.innerHTML = `<div class="intro-art"><span class="kicker">${ORG.name}</span><h1>大家來找茶</h1><p>茶葉知識小遊戲・六個關卡</p>
+  stage.innerHTML = `<div class="intro-art"><p class="intro-school">${ORG.school}<br>${ORG.team}</p><h1>${ORG.name}</h1><p>茶葉知識小遊戲・六個關卡</p>
     <div class="intro-row"><img src="${A}item_withered_leaf.png" alt=""><img src="${A}sam_idle_1.png" alt=""><div class="b-cup" style="position:relative;left:auto;translate:none;width:30%;--liq:#c4301c">${CUP()}</div></div></div>`;
   await G.say('姆！我是茶葉精靈薩姆。歡迎來到大家來找茶！我們一起用六個關卡，認識茶的大小事。');
   await G.next(Prog.total() ? '繼續找茶' : '開始找茶');
