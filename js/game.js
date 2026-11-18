@@ -11,7 +11,7 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const pickN = (arr, n, not) => shuffle(arr.filter(x => x !== not)).slice(0, n);
 const A = 'assets/';
-const SAMIMG = { idle: A + 'chali_idle_1.png', talk: A + 'chali_idle_2.png', happy: A + 'chali_happy_correct.png', cold: A + 'chali_wrong_1.png', wilt: A + 'chali_wrong_2.png' };   // 導覽角色：茶理先生
+const SAMIMG = { idle: A + 'chali_idle_1.png?v=2', talk: A + 'chali_idle_2.png?v=2', happy: A + 'chali_happy_correct.png?v=2', cold: A + 'chali_wrong_1.png?v=2', wilt: A + 'chali_wrong_2.png?v=2' };   // 導覽角色：茶理先生
 Object.values(SAMIMG).forEach(s => { new Image().src = s; });
 const stage = $('#tStage');
 let mistakes = 0;
@@ -286,7 +286,7 @@ async function certificate() {
   const date = new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' });
   await setScene(`<div class="cert">
     <span class="kicker">找茶證書</span>
-    <img class="cert-sam" src="${A}chali_happy_correct.png" alt="">
+    <img class="cert-sam" src="${A}chali_happy_correct.png?v=2" alt="">
     <h2>${title}</h2>
     <p class="cert-stars">★ ${total} / ${LEVELS.length * 3}</p>
     <p class="cert-txt">完成「大家來找茶」四關茶葉知識挑戰，認識了台灣名茶、日月潭紅茶與沖泡方法。</p>
@@ -322,7 +322,7 @@ async function main() {
   $('#btnMenu').addEventListener('click', () => { if (busy) { if (!confirm('要離開這一關，回到關卡選單嗎？')) return; location.reload(); return; } showMenu(); });
   Sound.bgm('day');
   stage.innerHTML = `<div class="intro-art"><p class="intro-school">${ORG.school}<br>${ORG.team}</p><h1>${ORG.name}</h1><p>茶葉知識小遊戲・四個關卡</p>
-    <div class="intro-row"><img src="${A}item_withered_leaf.png" alt=""><img src="${A}chali_idle_1.png" alt=""><div class="b-cup" style="position:relative;left:auto;translate:none;width:30%;--liq:#c4301c">${CUP()}</div></div></div>`;
+    <div class="intro-row"><img src="${A}item_withered_leaf.png" alt=""><img src="${A}chali_idle_1.png?v=2" alt=""><div class="b-cup" style="position:relative;left:auto;translate:none;width:30%;--liq:#c4301c">${CUP()}</div></div></div>`;
   await G.say('嗨！我是茶理先生，鹿谷茶園裡的一片茶葉。歡迎來到大家來找茶！我們一起用四個關卡，認識茶的大小事。');
   await G.next(Prog.total() ? '繼續找茶' : '開始找茶');
   showMenu();
