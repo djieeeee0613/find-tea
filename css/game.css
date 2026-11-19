@@ -46,3 +46,8 @@
 
 /* 首頁 banner：學校與組別 */
 .intro-art .intro-school { font-size: clamp(.8rem, 3.6vw, .95rem); font-weight: 700; line-height: 1.6; letter-spacing: .12em; color: var(--leaf-deep); padding: 4px 14px; border: 2px solid var(--leaf-deep); border-radius: 14px; background: #e3f1c8; }
+
+/* 底部署名浮水印 */
+.designer { margin: -2px 0 0; text-align: center; font-size: .68rem; letter-spacing: .08em; color: var(--ink-soft); opacity: .6; pointer-events: none; user-select: none; }
+.t-stage { width: min(100%, 520px, calc(100dvh - 310px - var(--sat) - var(--sab))); }
+@media (max-height: 680px) { .t-stage { width: min(100%, 520px, calc(100dvh - 268px - var(--sat) - var(--sab))); } }
